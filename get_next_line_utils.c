@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:29:08 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/03 11:44:34 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/03 17:33:31 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i] != '\0')
 		i++;
@@ -75,6 +77,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -84,31 +88,27 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if ((unsigned char)c == '\0')
 		return ((char *)&s[i]);
-	return (0);
+	return (NULL);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*dest;
-	int		size;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
-	i = -1;
-	j = 0;
-	if (!s1 && !s2)
-		return (NULL);
 	if (!s1)
-		return (ft_strdup(s2));
+		s1 = "";
 	if (!s2)
-		return (ft_strdup(s1));
-	size = (int)ft_strlen(s1) + (int)ft_strlen(s2);
-	dest = malloc(size + 1);
-	if (dest == NULL)
 		return (NULL);
-	while (++i < (int)ft_strlen(s1))
+	dest = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!dest)
+		return (NULL);
+	i = -1;
+	while (s1[++i])
 		dest[i] = s1[i];
-	while (i < size)
+	j = 0;
+	while (s2[j])
 		dest[i++] = s2[j++];
 	dest[i] = '\0';
 	return (dest);
