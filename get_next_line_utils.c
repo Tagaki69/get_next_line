@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enzolarue <enzolarue@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:29:08 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/03 11:44:34 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/02 16:32:39 by enzolarue        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	int		size;
-	char	*dest;
-
-	i = 0;
-	size = ft_strlen(s);
-	dest = malloc(size * sizeof(const char) + 1);
-	if (dest == NULL)
-		return (0);
-	while (s[i] != '\0')
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -82,7 +62,7 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	if ((unsigned char)c == '\0')
+	if ((unsigned char) c == '\0')
 		return ((char *)&s[i]);
 	return (0);
 }
@@ -94,20 +74,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		j;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	if (!s1 && !s2)
+	if (s1 == 0 || s2 == 0)
 		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
 	size = (int)ft_strlen(s1) + (int)ft_strlen(s2);
 	dest = malloc(size + 1);
 	if (dest == NULL)
 		return (NULL);
-	while (++i < (int)ft_strlen(s1))
+	while (i < (int)ft_strlen(s1))
+	{
 		dest[i] = s1[i];
+		i++;
+	}
 	while (i < size)
 		dest[i++] = s2[j++];
 	dest[i] = '\0';
