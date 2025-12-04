@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:44:24 by elarue            #+#    #+#             */
-/*   Updated: 2025/12/04 11:48:12 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/04 11:48:32 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -21,6 +21,8 @@
 #  undef BUFFER_SIZE
 #  define BUFFER_SIZE 1000000
 # endif
+
+# define MAX_FD 1024
 
 # include <fcntl.h>
 # include <stdlib.h>

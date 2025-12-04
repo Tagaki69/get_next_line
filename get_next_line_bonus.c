@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:46:21 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/04 12:00:51 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/04 12:00:21 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_free(char *buffer, char **stash)
 {
@@ -92,62 +92,84 @@ char	*update_stash_after_extraction(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[1024];
 	char		*line;
 	char		*old_stash;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= 1024)
 		return (NULL);
-	while (!stash || !ft_strchr(stash, '\n'))
+	while (!stash[fd] || !ft_strchr(stash[fd], '\n'))
 	{
-		old_stash = stash;
-		stash = read_and_update_stash(fd, stash);
-		if (!stash)
+		old_stash = stash[fd];
+		stash[fd] = read_and_update_stash(fd, stash[fd]);
+		if (!stash[fd])
 			return (NULL);
-		if (stash == old_stash && stash && !ft_strchr(stash, '\n'))
+		if (stash[fd] == old_stash && stash[fd] && !ft_strchr(stash[fd], '\n'))
 			break ;
 	}
-	if (!stash || !stash[0])
+	if (!stash[fd] || !stash[fd][0])
 	{
-		stash = NULL;
-		return (free(stash), NULL);
+		stash[fd] = NULL;
+		return (free(stash[fd]), NULL);
 	}
-	line = extract_line_from_stash(stash);
+	line = extract_line_from_stash(stash[fd]);
 	if (!line)
-		return (ft_free(line, &stash));
-	stash = update_stash_after_extraction(stash);
+		return (ft_free(line, &stash[fd]));
+	stash[fd] = update_stash_after_extraction(stash[fd]);
 	return (line);
 }
 
 // #include <stdio.h>
 
-// int	main(void)
+// void	print_line(int fd, char *filename, int *active_fds)
 // {
 // 	char	*line;
-// 	int		fd;
-// 	int		i;
 
-// 	fd = open("text", O_RDONLY);
-// 	if (fd == -1)
+// 	line = get_next_line(fd);
+// 	if (line)
 // 	{
-// 		printf("Erreur : Impossible d'ouvrir le fichier test_verif.txt\n");
+// 		printf("[%s] : |%s|", filename, line);
+// 		if (ft_strchr(line, '\n') == NULL)
+// 			printf(" (EOF sans \\n)");
+// 		printf("\n");
+// 		free(line);
+// 	}
+// 	else
+// 	{
+// 		if (*active_fds > 0)
+// 			printf("[%s] : --- FIN DU FICHIER ---\n", filename);
+// 		(*active_fds)--;
+// 	}
+// }
+
+// int	main(void)
+// {
+// 	int fd1, fd2, fd3;
+// 	int files_open;
+
+// 	fd1 = open("file1", O_RDONLY);
+// 	fd2 = open("file2", O_RDONLY);
+// 	fd3 = open("file3", O_RDONLY);
+// 	if (fd1 == -1 || fd2 == -1 || fd3 == -1)
+// 	{
+// 		printf("Erreur : Creez file1, file2 et file3\n");
 // 		return (1);
 // 	}
-// 	printf("---- DEBUT DU TEST (BUFFER_SIZE = %d) ----\n", BUFFER_SIZE);
-// 	i = 1;
-// 	while (1)
+// 	printf("---- DEBUT DU TEST BONUS (BUFFER_SIZE = %d) ----\n", BUFFER_SIZE);
+// 	files_open = 3;
+// 	while (files_open > 0)
 // 	{
-// 		line = get_next_line(fd);
-// 		if (line == NULL)
+// 		files_open = 3;
+// 		print_line(fd1, "file1", &files_open);
+// 		print_line(fd2, "file2", &files_open);
+// 		print_line(fd3, "file3", &files_open);
+// 		printf("--------------------------------\n");
+// 		if (files_open == 0)
 // 			break ;
-// 		printf("Ligne %d : |%s|", i, line);
-// 		if (ft_strchr(line, '\n') == NULL)
-// 			printf(" (EOF sans \\n detecte)\n");
-
-// 		free(line);
-// 		i++;
 // 	}
-// 	printf("---- FIN DU TEST (Total lu : %d lignes) ----\n", i - 1);
-// 	close(fd);
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	printf("---- TEST TERMINE ----\n");
 // 	return (0);
 // }
