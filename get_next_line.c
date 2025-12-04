@@ -6,14 +6,24 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:46:21 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/03 17:37:05 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/04 11:25:17 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-char	*read_and_update_storage(int fd, char *storage)
+static char	*ft_free(char *buffer, char **stash)
+{
+	free(buffer);
+	if (*stash)
+	{
+		free(*stash);
+		*stash = NULL;
+	}
+	return (NULL);
+}
+
+char	*read_and_update_stash(int fd, char *stash)
 {
 	char	*buf;
 	char	*tmp;
@@ -21,94 +31,96 @@ char	*read_and_update_storage(int fd, char *storage)
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
-		return (free(storage), NULL);
+		return (ft_free(buf, &stash));
 	read_bytes = read(fd, buf, BUFFER_SIZE);
 	if (read_bytes > 0)
 	{
 		buf[read_bytes] = '\0';
-		tmp = ft_strjoin(storage, buf);
-		free(storage);
+		tmp = ft_strjoin(stash, buf);
+		free(stash);
 		free(buf);
 		return (tmp);
 	}
-	free(buf);
 	if (read_bytes == -1)
-		return (free(storage), NULL);
-	return (storage);
+		return (ft_free(buf, &stash));
+	free(buf);
+	return (stash);
 }
 
-char	*extract_line_from_storage(char *storage)
+char	*extract_line_from_stash(char *stash)
 {
 	char	*after_line;
 	size_t	len;
 
-	if (!storage)
+	if (!stash)
 		return (NULL);
-	after_line = ft_strchr(storage, '\n');
+	after_line = ft_strchr(stash, '\n');
 	if (!after_line)
-		return (ft_strdup(storage));
-	len = (after_line - storage) + 1;
-	return (ft_substr(storage, 0, len));
+		return (ft_strdup(stash));
+	len = ft_strlen(stash) - ft_strlen(after_line) + 1;
+	return (ft_substr(stash, 0, len));
 }
 
-char	*update_storage_after_extraction(char *storage)
+char	*update_stash_after_extraction(char *stash)
 {
 	char	*after_line;
-	char	*new_storage;
+	char	*new_stash;
 
-	if (!storage)
+	if (!stash)
 		return (NULL);
-	after_line = ft_strchr(storage, '\n');
+	after_line = ft_strchr(stash, '\n');
 	if (!after_line)
 	{
-		free(storage);
+		free(stash);
 		return (NULL);
 	}
-	new_storage = ft_strdup(after_line + 1);
-	if (!new_storage)
+	new_stash = ft_strdup(after_line + 1);
+	if (!new_stash)
 	{
-		free(storage);
+		free(stash);
 		return (NULL);
 	}
-	if (!new_storage[0])
+	if (!new_stash[0])
 	{
-		free(new_storage);
-		free(storage);
+		free(new_stash);
+		free(stash);
 		return (NULL);
 	}
-	free(storage);
-	return (new_storage);
+	free(stash);
+	return (new_stash);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
+	static char	*stash;
 	char		*line;
-	char		*old_storage;
+	char		*old_stash;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	while (!storage || !ft_strchr(storage, '\n'))
+	while (!stash || !ft_strchr(stash, '\n'))
 	{
-		old_storage = storage;
-		storage = read_and_update_storage(fd, storage);
-		if (!storage)
+		old_stash = stash;
+		stash = read_and_update_stash(fd, stash);
+		if (!stash)
 			return (NULL);
-		if (storage == old_storage && storage && !ft_strchr(storage, '\n'))
+		if (stash == old_stash && stash && !ft_strchr(stash, '\n'))
 			break ;
 	}
-	if (!storage || !storage[0])
+	if (!stash || !stash[0])
 	{
-		free(storage);
-		storage = NULL;
-		return (NULL);
+		stash = NULL;
+		return (free(stash), NULL);
 	}
-	line = extract_line_from_storage(storage);
-	storage = update_storage_after_extraction(storage);
+	line = extract_line_from_stash(stash);
+	if (!line)
+		return (ft_free(line, &stash));
+	stash = update_stash_after_extraction(stash);
 	return (line);
 }
 
 // #include <string.h>
+// #include <stdio.h>
 
 // int	main(void)
 // {
