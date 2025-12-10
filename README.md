@@ -56,10 +56,6 @@ cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=1000 get_next_line_bonus.c get_next_line_utils_bonus.c
 ```
 
-## 🏆 Note obtenue
-
-**125/100** ✨ (bonus inclus)
-
 ## 🛠️ Contraintes 42
 
 ✅ **≤25 lignes/fonction** ✅ **≤80 colonnes** ✅ **Variables statiques uniquement** ✅ **Gestion mémoire stricte** ✅ **Norme 42**
