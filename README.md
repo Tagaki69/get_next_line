@@ -50,10 +50,10 @@ Fonction de lecture ligne par ligne depuis un descripteur de fichier. Utilise de
 ### 🛠️ Compilation
 ```bash
 # Version standard
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
+cc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c main/main.c -D BUFFER_SIZE=42
 
 # Version bonus
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=1000 get_next_line_bonus.c get_next_line_utils_bonus.c
+cc -Wall -Wextra -Werror get_next_line_bonus.c get_next_line_utils_bonus.c main/main_bonus.c -D BUFFER_SIZE=42
 ```
 
 ## 🛠️ Contraintes 42
