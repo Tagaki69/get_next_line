@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:44:24 by elarue            #+#    #+#             */
-/*   Updated: 2025/12/10 10:59:25 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:54:26 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-char	*read_and_update_stash(int fd, char *stash);
+char	*read_and_update_stash(int fd, char **stash);
 char	*extract_line_from_stash(char *stash);
 char	*update_stash_after_extraction(char *stash);
 

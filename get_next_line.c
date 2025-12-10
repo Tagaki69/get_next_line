@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:46:21 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/10 11:07:53 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/10 16:49:38 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,30 @@ static char	*ft_free(char *buffer, char **stash)
 	return (NULL);
 }
 
-char	*read_and_update_stash(int fd, char *stash)
+char	*read_and_update_stash(int fd, char **stash)
 {
 	char	*buf;
 	char	*tmp;
 	ssize_t	read_bytes;
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
-		return (ft_free(buf, &stash));
+		return (ft_free(buf, stash));
 	read_bytes = read(fd, buf, BUFFER_SIZE);
 	if (read_bytes > 0)
 	{
 		buf[read_bytes] = '\0';
-		tmp = ft_strjoin(stash, buf);
-		free(stash);
+		tmp = ft_strjoin(*stash, buf);
 		free(buf);
+		free(*stash);
+		if (!tmp)
+			return (*stash = NULL, NULL);
 		return (tmp);
 	}
 	if (read_bytes == -1)
-		return (ft_free(buf, &stash));
+		return (ft_free(buf, stash));
 	free(buf);
-	return (stash);
+	return (*stash);
 }
 
 char	*extract_line_from_stash(char *stash)
@@ -101,7 +103,7 @@ char	*get_next_line(int fd)
 	while (!stash || !ft_strchr(stash, '\n'))
 	{
 		old_stash = stash;
-		stash = read_and_update_stash(fd, stash);
+		stash = read_and_update_stash(fd, &stash);
 		if (!stash)
 			return (NULL);
 		if (stash == old_stash && stash && !ft_strchr(stash, '\n'))
