@@ -1,0 +1,4 @@
+==== FICHIER 2 ====
+B1
+B2 - ligne assez longue pour voir si l'ordre reste correct.
+B3
