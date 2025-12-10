@@ -12,9 +12,9 @@ int	main(void)
 	char	*line2;
 	char	*line3;
 
-	fd1 = open("test/test1.txt", O_RDONLY);
-	fd2 = open("test/test2.txt", O_RDONLY);
-	fd3 = open("test/test3.txt", O_RDONLY);
+	fd1 = open("files/test1.txt", O_RDONLY);
+	fd2 = open("files/test2.txt", O_RDONLY);
+	fd3 = open("files/test3.txt", O_RDONLY);
 	if (fd1 < 0 || fd2 < 0 || fd3 < 0)
 	{
 		perror("open");

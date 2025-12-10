@@ -8,7 +8,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("test/bible.txt", O_RDONLY);
+	fd = open("files/bible.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("open");
