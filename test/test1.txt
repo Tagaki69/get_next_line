@@ -1,5 +1,0 @@
-==== FICHIER 1 ====
-Ligne A1
-Ligne A2
-Ligne A3
-Fin du fichier 1
