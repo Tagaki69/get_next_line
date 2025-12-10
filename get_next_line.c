@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:46:21 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/04 12:00:51 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/10 11:07:53 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,36 +118,3 @@ char	*get_next_line(int fd)
 	stash = update_stash_after_extraction(stash);
 	return (line);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	*line;
-// 	int		fd;
-// 	int		i;
-
-// 	fd = open("text", O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		printf("Erreur : Impossible d'ouvrir le fichier test_verif.txt\n");
-// 		return (1);
-// 	}
-// 	printf("---- DEBUT DU TEST (BUFFER_SIZE = %d) ----\n", BUFFER_SIZE);
-// 	i = 1;
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (line == NULL)
-// 			break ;
-// 		printf("Ligne %d : |%s|", i, line);
-// 		if (ft_strchr(line, '\n') == NULL)
-// 			printf(" (EOF sans \\n detecte)\n");
-
-// 		free(line);
-// 		i++;
-// 	}
-// 	printf("---- FIN DU TEST (Total lu : %d lignes) ----\n", i - 1);
-// 	close(fd);
-// 	return (0);
-// }

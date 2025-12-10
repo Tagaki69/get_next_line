@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:44:24 by elarue            #+#    #+#             */
-/*   Updated: 2025/12/04 11:48:32 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/10 10:59:25 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,10 @@
 #  define BUFFER_SIZE 42
 # endif
 
-# if BUFFER_SIZE > 1000000
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000
+# ifndef MAX_FD
+#  define MAX_FD 1024
 # endif
 
-# define MAX_FD 1024
-
-# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 

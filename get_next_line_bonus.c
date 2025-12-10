@@ -6,7 +6,7 @@
 /*   By: elarue <elarue@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:46:21 by enzolarue         #+#    #+#             */
-/*   Updated: 2025/12/04 12:00:21 by elarue           ###   ########.fr       */
+/*   Updated: 2025/12/10 11:08:04 by elarue           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*old_stash;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= 1024)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= MAX_FD)
 		return (NULL);
 	while (!stash[fd] || !ft_strchr(stash[fd], '\n'))
 	{
@@ -118,58 +118,3 @@ char	*get_next_line(int fd)
 	stash[fd] = update_stash_after_extraction(stash[fd]);
 	return (line);
 }
-
-// #include <stdio.h>
-
-// void	print_line(int fd, char *filename, int *active_fds)
-// {
-// 	char	*line;
-
-// 	line = get_next_line(fd);
-// 	if (line)
-// 	{
-// 		printf("[%s] : |%s|", filename, line);
-// 		if (ft_strchr(line, '\n') == NULL)
-// 			printf(" (EOF sans \\n)");
-// 		printf("\n");
-// 		free(line);
-// 	}
-// 	else
-// 	{
-// 		if (*active_fds > 0)
-// 			printf("[%s] : --- FIN DU FICHIER ---\n", filename);
-// 		(*active_fds)--;
-// 	}
-// }
-
-// int	main(void)
-// {
-// 	int fd1, fd2, fd3;
-// 	int files_open;
-
-// 	fd1 = open("file1", O_RDONLY);
-// 	fd2 = open("file2", O_RDONLY);
-// 	fd3 = open("file3", O_RDONLY);
-// 	if (fd1 == -1 || fd2 == -1 || fd3 == -1)
-// 	{
-// 		printf("Erreur : Creez file1, file2 et file3\n");
-// 		return (1);
-// 	}
-// 	printf("---- DEBUT DU TEST BONUS (BUFFER_SIZE = %d) ----\n", BUFFER_SIZE);
-// 	files_open = 3;
-// 	while (files_open > 0)
-// 	{
-// 		files_open = 3;
-// 		print_line(fd1, "file1", &files_open);
-// 		print_line(fd2, "file2", &files_open);
-// 		print_line(fd3, "file3", &files_open);
-// 		printf("--------------------------------\n");
-// 		if (files_open == 0)
-// 			break ;
-// 	}
-// 	close(fd1);
-// 	close(fd2);
-// 	close(fd3);
-// 	printf("---- TEST TERMINE ----\n");
-// 	return (0);
-// }
